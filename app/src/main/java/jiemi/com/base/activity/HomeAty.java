@@ -2,14 +2,27 @@ package jiemi.com.base.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import jiemi.com.base.R;
+import jiemi.com.base.application.BaseApplication;
 
 public class HomeAty extends BaseAty {
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_aty);
+    public View setView() {
+        View view=View.inflate(BaseApplication.getApplication(),R.layout.activity_home_aty,null);
+        return view;
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public void initView() {
+
     }
 }
