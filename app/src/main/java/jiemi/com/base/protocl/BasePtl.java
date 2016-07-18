@@ -1,6 +1,9 @@
 package jiemi.com.base.protocl;
 
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 
 import java.util.Map;
 
@@ -18,9 +21,11 @@ import jiemi.com.base.tools.UIUtils;
  * @author：NIU Date：2016/7/12
  */
 public abstract class BasePtl implements ReqInterface {
+
     public Handler handler;
-
-
+    public BasePtl(Handler handler){
+        this.handler=handler;
+    }
     /**
      * 请求数据
      *
@@ -46,6 +51,11 @@ public abstract class BasePtl implements ReqInterface {
 
     @Override
     public void onComplete(int tag, String json) {
-
+        Message msg=Message.obtain();
+        Bundle bundle=new Bundle();
+        bundle.putString("json",json);
+        msg.setData(bundle);
+        msg.what=tag;
+        handler.sendMessage(msg);
     }
 }

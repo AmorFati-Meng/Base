@@ -25,4 +25,14 @@ public class HomeAty extends BaseAty {
     public void initView() {
 
     }
+
+    @Override
+    public void processMsg(String json) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
 }

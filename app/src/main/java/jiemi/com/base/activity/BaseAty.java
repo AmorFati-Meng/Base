@@ -3,6 +3,8 @@ package jiemi.com.base.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,15 +17,26 @@ import java.util.List;
 
 import jiemi.com.base.R;
 import jiemi.com.base.service.NotifyService;
+import jiemi.com.base.tools.JsonTools;
 
 
-public abstract class BaseAty extends AppCompatActivity {
+public abstract class BaseAty extends AppCompatActivity implements View.OnClickListener {
 
     public static BaseAty mForegroundActivity = null;
     public static List<Activity> activitieList=new ArrayList<>();
 
     @ViewInject(R.id.fly_content)
     public FrameLayout mFrame;
+
+
+    public  Handler mhandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+           String json= msg.getData().getString("json");
+            processMsg(json);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +82,13 @@ public abstract class BaseAty extends AppCompatActivity {
         return mForegroundActivity;
     }
 
+
+    public void setClick(View... views){
+        for(View view : views){
+            view.setOnClickListener(this);
+        }
+    }
+
     /**
      *将此Activity加入到活动Activity队列中
      *
@@ -109,4 +129,10 @@ public abstract class BaseAty extends AppCompatActivity {
         }
         android.os.Process.killProcess(android.os.Process.myPid());
     }
+
+
+    public abstract  void processMsg(String json);
+
+    @Override
+    public abstract void onClick(View v);
 }
