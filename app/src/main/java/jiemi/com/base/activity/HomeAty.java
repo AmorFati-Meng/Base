@@ -1,5 +1,6 @@
 package jiemi.com.base.activity;
 
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ public class HomeAty extends BaseAty {
 
     @Override
     public void initData() {
+        setScreenShow(false);
 
     }
 
@@ -27,9 +29,10 @@ public class HomeAty extends BaseAty {
     }
 
     @Override
-    public void processMsg(String json) {
+    public void processMsg(Message msg) {
 
     }
+
 
     @Override
     public void onClick(View v) {

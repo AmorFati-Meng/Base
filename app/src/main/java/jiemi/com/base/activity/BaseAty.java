@@ -1,7 +1,8 @@
 package jiemi.com.base.activity;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
+import android.media.MediaRouter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,14 +11,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import jiemi.com.base.R;
-import jiemi.com.base.service.NotifyService;
-import jiemi.com.base.tools.JsonTools;
+import jiemi.com.base.tools.ScreenTools;
+import jiemi.com.base.widget.LauncherSecondScreen;
 
 
 public abstract class BaseAty extends AppCompatActivity implements View.OnClickListener {
@@ -29,12 +31,23 @@ public abstract class BaseAty extends AppCompatActivity implements View.OnClickL
     public FrameLayout mFrame;
 
 
+    /**
+     *
+     * 控制显示双屏，true现显示一样，flase显示不一样
+     */
+    private boolean screenShow=true;
+
+    private boolean mPaused;
+    private LauncherSecondScreen mPresentation;
+
+    private MediaRouter mMediaRouter;
+
+
     public  Handler mhandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-           String json= msg.getData().getString("json");
-            processMsg(json);
+            processMsg(msg);
         }
     };
 
@@ -45,7 +58,10 @@ public abstract class BaseAty extends AppCompatActivity implements View.OnClickL
 
       /*  Intent intent = new Intent(this,NotifyService.class);
         startService(intent);*/
+        ViewUtils.inject(this);
 
+        mFrame= (FrameLayout) findViewById(R.id.fly_content);
+        mMediaRouter = (MediaRouter)getSystemService(Context.MEDIA_ROUTER_SERVICE);
         addActivity(this);
 
         getView();
@@ -76,8 +92,18 @@ public abstract class BaseAty extends AppCompatActivity implements View.OnClickL
     protected void onResume() {
         super.onResume();
         this.mForegroundActivity = this;
-    }
+        if(!screenShow){
 
+            ScreenTools screenTools=new ScreenTools(mPresentation, mPaused, mForegroundActivity, mMediaRouter);
+        }
+    }
+     /**
+      * 控制是否是双屏是否显示一样
+      * @param  screenShow true 显示一样 false 显示不一样
+      */
+     public void setScreenShow(boolean screenShow){
+         this.screenShow =screenShow;
+     }
     public static BaseAty getForegroundActivity() {
         return mForegroundActivity;
     }
@@ -129,9 +155,11 @@ public abstract class BaseAty extends AppCompatActivity implements View.OnClickL
         }
         android.os.Process.killProcess(android.os.Process.myPid());
     }
-
-
-    public abstract  void processMsg(String json);
+     /**
+      * 解析Message消息
+      *
+      */
+    public abstract  void processMsg(Message msg);
 
     @Override
     public abstract void onClick(View v);
