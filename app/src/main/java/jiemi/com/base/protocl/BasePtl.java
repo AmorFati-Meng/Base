@@ -14,13 +14,13 @@ import jiemi.com.base.tools.NetUtils;
 import jiemi.com.base.tools.UIUtils;
 
 /**
- * 类名：
+ * 类名：网络请求
  * <p/>
  * 描述：
  *
  * @author：NIU Date：2016/7/12
  */
-public abstract class BasePtl implements ReqInterface {
+public  class BasePtl implements ReqInterface {
 
     public Handler handler;
     public BasePtl(Handler handler){
@@ -29,10 +29,10 @@ public abstract class BasePtl implements ReqInterface {
     /**
      * 请求数据
      *
-     * @param tag    标志�?
-     * @param method 请求数据的方�? post/get
+     * @param tag    标志
+     * @param method 请求数据的方式 post/get
      * @param url    请求数据的URL
-     * @param params 请求�?要的参数 可以为空
+     * @param params 请求需要的参数 可以为空
      */
     public void requestData(final int tag, int method, String url,
                             Map<String, String> params) {

@@ -7,10 +7,12 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import jiemi.com.base.protocl.BasePtl;
+
 /**
- * 类名：
+ * 类名：Fragment 的抽取父类
  * <p/>
- * 描述：
+ * 描述：抽取一些常用的属性，方法
  *
  * @author：NIU Date：2016/7/18
  */
@@ -24,6 +26,9 @@ public abstract class BaseFragment extends Fragment {
             processMsg(msg);
         }
     };
+
+    // 联网
+    public BasePtl basePtl=new BasePtl(mhandler);
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jiemi.com.base.R;
+import jiemi.com.base.protocl.BasePtl;
 import jiemi.com.base.tools.ScreenTools;
 import jiemi.com.base.widget.LauncherSecondScreen;
 
@@ -43,6 +44,7 @@ public abstract class BaseAty extends AppCompatActivity implements View.OnClickL
     private MediaRouter mMediaRouter;
 
 
+
     public  Handler mhandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -51,6 +53,8 @@ public abstract class BaseAty extends AppCompatActivity implements View.OnClickL
         }
     };
 
+    // 联网
+    public BasePtl basePtl=new BasePtl(mhandler);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

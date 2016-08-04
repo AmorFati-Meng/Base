@@ -4,13 +4,18 @@ package jiemi.com.base.widget;
 
 
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 import android.annotation.SuppressLint;
 import android.app.Presentation;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -18,12 +23,19 @@ import android.view.Display;
 import android.view.View;
 
 import android.widget.ImageView;
-import android.widget.Toast;
+
+
+import com.android.volley.Request;
 
 import jiemi.com.base.R;
+import jiemi.com.base.network.Network;
+import jiemi.com.base.protocl.BasePtl;
 
 @SuppressLint("NewApi")
 public class LauncherSecondScreen extends Presentation {
+
+
+	    private static  final  int PAGER_VIEW=100;
 	 
 	    private ViewPager pager;
 	    private int mCurrentItem = 0;
@@ -33,6 +45,17 @@ public class LauncherSecondScreen extends Presentation {
 	    private int[] imgResIDs = new int[]
 	    	    { R.drawable.a, R.drawable.b, R.drawable.c, R.drawable.d, R.drawable.e };
 	    private ArrayList<View> items = new ArrayList<View>();
+
+
+	private Handler mHandler = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+
+			initView();
+		}
+	};
+
 	@SuppressLint("NewApi")
 	public LauncherSecondScreen(Context outerContext, Display display) {
 		super(outerContext, display);
@@ -46,7 +69,14 @@ public class LauncherSecondScreen extends Presentation {
 		 setContentView(R.layout.dialog_second_screen_content);
 		 pager = (ViewPager) findViewById(R.id.tuijian_pager);
 		initAllItems();
-		initView();
+		//initView();
+	}
+
+	private void getPagetView(){
+		BasePtl basePtl=new BasePtl(mHandler);
+		Map<String , String> params=new HashMap<String, String>();
+		basePtl.requestData(PAGER_VIEW, Request.Method.POST, Network.PAGER_VIEW,params);
+
 	}
 	private void initView(){
 		 pager.setAdapter(new PagerAdapter()
